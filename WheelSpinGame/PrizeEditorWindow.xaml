@@ -1,0 +1,88 @@
+<!-- PrizeEditorWindow.xaml -->
+<Window x:Class="WheelSpinGame.PrizeEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Prize Configuration Editor" 
+        Height="600" Width="800"
+        Background="#0F1123"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style x:Key="EditorButton" TargetType="Button">
+            <Setter Property="Background" Value="#4A63E7"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="8"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#5B73F7"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Prize Configuration Editor" 
+                  FontSize="24" 
+                  FontWeight="Bold" 
+                  Foreground="#E1E1E6"
+                  Margin="0,0,0,20"/>
+
+        <TextBox x:Name="JsonEditor" 
+                 Grid.Row="1"
+                 Background="#252A41"
+                 Foreground="#E1E1E6"
+                 FontFamily="Consolas"
+                 FontSize="14"
+                 Padding="15"
+                 AcceptsReturn="True"
+                 AcceptsTab="True"
+                 VerticalScrollBarVisibility="Auto"
+                 HorizontalScrollBarVisibility="Auto"
+                 TextWrapping="Wrap">
+            <TextBox.Effect>
+                <DropShadowEffect Color="#4A63E7" 
+                                BlurRadius="15" 
+                                ShadowDepth="0"
+                                Opacity="0.3"/>
+            </TextBox.Effect>
+        </TextBox>
+
+        <StackPanel Grid.Row="2" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right"
+                    Margin="0,20,0,0">
+            <Button Content="Format JSON" 
+                    Style="{StaticResource EditorButton}"
+                    Click="FormatJson_Click"/>
+            <Button Content="Save Changes" 
+                    Style="{StaticResource EditorButton}"
+                    Click="SaveChanges_Click"/>
+            <Button Content="Cancel" 
+                    Style="{StaticResource EditorButton}"
+                    Background="#FF5252"
+                    Click="Cancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

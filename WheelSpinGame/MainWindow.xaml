@@ -1,0 +1,221 @@
+﻿<!-- MainWindow.xaml -->
+<Window x:Class="WheelSpinGame.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Prize Wheel" Height="800" Width="1200"
+        Background="#1A1A2E">
+
+    <Window.Resources>
+        <Style x:Key="TierButton" TargetType="Button">
+            <Setter Property="Background" Value="#252A41" />
+            <Setter Property="Foreground" Value="#E1E1E6" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="20,10" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="8"
+                                BorderThickness="0"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#2D325A" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#1E2142" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- Win Popup Style -->
+        <Style x:Key="WinPopupStyle" TargetType="Border">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#252A41" Offset="0" />
+                        <GradientStop Color="#1E2142" Offset="1" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderBrush" Value="#4A63E7" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="Padding" Value="30" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#4A63E7"
+                                      BlurRadius="30"
+                                      ShadowDepth="0" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SpinButton" TargetType="Button">
+            <Setter Property="Background" Value="#4A63E7" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="25"
+                                BorderThickness="0"
+                                Width="150" Height="50">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#5B73F7" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#3953D7" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Title and Tier Selection -->
+        <StackPanel Grid.Row="0" Margin="0,20,0,0">
+            <TextBlock Text="Prize Wheel"
+                       FontSize="32"
+                       FontWeight="Bold"
+                       Foreground="#E1E1E6"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,20" />
+
+            <!-- Tier Selection Buttons -->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="10">
+                <ItemsControl x:Name="TierButtonsControl"
+                              HorizontalAlignment="Center">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding Key, StringFormat='TIER {0}'}"
+                                    Style="{StaticResource TierButton}"
+                                    Click="TierButton_Click"
+                                    Tag="{Binding Key}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <!-- Wheel Container with Glow Effect -->
+            <Grid Width="600" Height="600">
+                <Ellipse Width="610" Height="610"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center">
+                    <Ellipse.Effect>
+                        <DropShadowEffect Color="#4A63E7"
+                                          BlurRadius="30"
+                                          ShadowDepth="0" />
+                    </Ellipse.Effect>
+                </Ellipse>
+
+                <!-- The Pie Chart Wheel -->
+                <Canvas x:Name="WheelCanvas"
+                        MouseLeftButtonDown="WheelCanvas_MouseLeftButtonDown"
+                        Width="600" Height="600">
+                    <Canvas.RenderTransform>
+                        <RotateTransform x:Name="WheelRotation"
+                                         CenterX="300" CenterY="300" />
+                    </Canvas.RenderTransform>
+                </Canvas>
+
+                <!-- Center Circle -->
+                <Ellipse Width="80" Height="80"
+                         Fill="#252A41"
+                         Stroke="#4A63E7"
+                         StrokeThickness="3">
+                    <Ellipse.Effect>
+                        <DropShadowEffect Color="#4A63E7"
+                                          BlurRadius="15"
+                                          ShadowDepth="0" />
+                    </Ellipse.Effect>
+                </Ellipse>
+
+                <!-- Needle -->
+                <Path x:Name="Needle"
+                      Fill="#FF5252"
+                      Stroke="#FF3838"
+                      StrokeThickness="2"
+                      Data="M 300,80 L 285,110 L 315,110 Z">
+                    <Path.Effect>
+                        <DropShadowEffect Color="#FF5252"
+                                          BlurRadius="15"
+                                          ShadowDepth="0" />
+                    </Path.Effect>
+                </Path>
+            </Grid>
+
+            <!-- Spin Button -->
+            <Button Content="SPIN!"
+                    Style="{StaticResource SpinButton}"
+                    VerticalAlignment="Bottom"
+                    Margin="0,0,0,40"
+                    Click="SpinButton_Click">
+                <Button.Effect>
+                    <DropShadowEffect Color="#4A63E7"
+                                      BlurRadius="15"
+                                      ShadowDepth="0" />
+                </Button.Effect>
+            </Button>
+
+            <!-- Win Popup -->
+            <Border x:Name="WinPopup"
+                    Style="{StaticResource WinPopupStyle}"
+                    Width="400"
+                    Height="300"
+                    Visibility="Collapsed">
+                <Grid>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="🎉 Congratulations! 🎉"
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   Foreground="#E1E1E6"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,20" />
+
+                        <TextBlock x:Name="WinPrizeText"
+                                   Text="You won: Prize Name"
+                                   FontSize="24"
+                                   Foreground="#4ECDC4"
+                                   TextAlignment="Center"
+                                   TextWrapping="Wrap"
+                                   Margin="0,0,0,30" />
+
+                        <Button Content="Awesome!"
+                                Style="{StaticResource SpinButton}"
+                                Width="150"
+                                Height="50"
+                                FontSize="18"
+                                Click="CloseWinPopup_Click" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
