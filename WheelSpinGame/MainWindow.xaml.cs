@@ -84,7 +84,7 @@ public partial class MainWindow : Window
             ["S"] = new List<PrizeInfo>
             {
                 new PrizeInfo { Id = "s1", Name = "Candies", DropRate = 20, SliceSize = 1, Color = "#FF7E6B" },
-                //   new PrizeInfo { Id = "s2", Name = "Stickers", DropRate = 2, SliceSize = 1, Color = "#4ECDC4" },
+                new PrizeInfo { Id = "s2", Name = "Stickers", DropRate = 2, SliceSize = 1, Color = "#4ECDC4" },
                 new PrizeInfo { Id = "s3", Name = "Lanyard", DropRate = 0.1, SliceSize = 1, Color = "#45B7D1" }
             },
             ["A"] = new List<PrizeInfo>
@@ -224,7 +224,7 @@ public partial class MainWindow : Window
         WheelCanvas.Children.Add(textContainer);
     }
 
-  
+
     private void SpinWheel(PrizeInfo selectedPrize)
     {
         if (isSpinning) return;
@@ -244,10 +244,10 @@ public partial class MainWindow : Window
         // The needle points up (270 degrees), so we need to adjust our target
         // We want the prize to be at the top when the wheel stops
         double targetSliceCenter = startAngle + (sliceAngle / 2);
-        
+
         // Calculate how much we need to rotate to get the slice center to the top (270 degrees)
         double angleToTop = 270 - targetSliceCenter;
-        
+
         // Add multiple full rotations for effect
         double totalRotation = angleToTop + (360 * 5); // 5 full rotations before final position
 
@@ -256,8 +256,8 @@ public partial class MainWindow : Window
         {
             To = totalRotation,
             Duration = TimeSpan.FromSeconds(5),
-            EasingFunction = new BackEase 
-            { 
+            EasingFunction = new BackEase
+            {
                 Amplitude = 0.1,
                 EasingMode = EasingMode.EaseOut
             }
@@ -366,7 +366,7 @@ public partial class MainWindow : Window
         {
             var selectedPrize = SelectPrizeByDropRate();
             Debug.WriteLine(JsonConvert.SerializeObject(selectedPrize, Formatting.Indented));
-            
+
             SpinWheel(selectedPrize);
         }
     }
