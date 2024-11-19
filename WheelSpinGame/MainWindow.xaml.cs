@@ -33,7 +33,7 @@ public partial class MainWindow : Window
         InitializeComponent();
         InitializeHotkey();
         Prizes = InitializePrizes();
-        UpdateTierButtons();
+        currentTier = "C"; // Set default tier to C
         DrawWheel(currentTier);
     }
 
@@ -73,7 +73,7 @@ public partial class MainWindow : Window
 
     private void UpdateTierButtons()
     {
-        TierButtonsControl.ItemsSource = Prizes.ToList();
+        // TierButtonsControl.ItemsSource = Prizes.ToList();
     }
 
 
@@ -81,31 +81,15 @@ public partial class MainWindow : Window
     {
         var defaultPrizes = new Dictionary<string, List<PrizeInfo>>
         {
-            ["S"] = new List<PrizeInfo>
-            {
-                new PrizeInfo { Id = "s1", Name = "Candies", DropRate = 20, SliceSize = 1, Color = "#FF7E6B" },
-                new PrizeInfo { Id = "s2", Name = "Stickers", DropRate = 2, SliceSize = 1, Color = "#4ECDC4" },
-                new PrizeInfo { Id = "s3", Name = "Lanyard", DropRate = 0.1, SliceSize = 1, Color = "#45B7D1" }
-            },
-            ["A"] = new List<PrizeInfo>
-            {
-                new PrizeInfo { Id = "a1", Name = "Lanyard", DropRate = 0.5, SliceSize = 1, Color = "#FF7E6B" },
-                new PrizeInfo { Id = "a2", Name = "Candies", DropRate = 6, SliceSize = 1, Color = "#4ECDC4" },
-                new PrizeInfo { Id = "a3", Name = "Stickers", DropRate = 4, SliceSize = 1, Color = "#45B7D1" }
-            },
-            ["B"] = new List<PrizeInfo>
-            {
-                new PrizeInfo { Id = "b1", Name = "Candies", DropRate = 65, SliceSize = 1, Color = "#FF7E6B" },
-                new PrizeInfo { Id = "b2", Name = "Stickers", DropRate = 10, SliceSize = 1, Color = "#4ECDC4" },
-                new PrizeInfo
-                    { Id = "b3", Name = "Better luck next time", DropRate = 25, SliceSize = 1, Color = "#95A5A6" }
-            },
             ["C"] = new List<PrizeInfo>
             {
-                new PrizeInfo { Id = "c1", Name = "Stickers", DropRate = 1, SliceSize = 1, Color = "#FF7E6B" },
-                new PrizeInfo { Id = "c2", Name = "Candies", DropRate = 1, SliceSize = 1, Color = "#4ECDC4" },
+                new PrizeInfo { Id = "c1", Name = "Candies", DropRate = 33, SliceSize = 33, Color = "#FF7E6B" },
+                new PrizeInfo { Id = "c2", Name = "Stickers", DropRate = 33, SliceSize = 33, Color = "#4ECDC4" },
+                new PrizeInfo { Id = "c3", Name = "Pins", DropRate = 33, SliceSize = 33, Color = "#45B7D1" },
+                new PrizeInfo {
+ Id = "c4", Name = "Lanyard", DropRate = 1, SliceSize = 56, Color = "#FFD700" },
                 new PrizeInfo
-                    { Id = "c3", Name = "Better luck next time", DropRate = 1, SliceSize = 1, Color = "#95A5A6" }
+                    { Id = "c5", Name = "Try Again", DropRate = 24, SliceSize = 33, Color = "#95A5A6" }
             }
         };
 

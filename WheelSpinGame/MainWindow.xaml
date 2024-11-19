@@ -99,27 +99,7 @@
                        HorizontalAlignment="Center"
                        Margin="0,0,0,20" />
 
-            <!-- Tier Selection Buttons -->
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Center"
-                        Margin="10">
-                <ItemsControl x:Name="TierButtonsControl"
-                              HorizontalAlignment="Center">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Button Content="{Binding Key, StringFormat='TIER {0}'}"
-                                    Style="{StaticResource TierButton}"
-                                    Click="TierButton_Click"
-                                    Tag="{Binding Key}"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
+        
         </StackPanel>
 
         <Grid Grid.Row="1">
